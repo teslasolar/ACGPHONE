@@ -1,0 +1,9 @@
+{
+  "type": "card",
+  "id": "c4",
+  "title": "WebSocket real-time pipeline",
+  "description": "Replace polling with persistent connections",
+  "stage": "green",
+  "tags": ["green", "blue"],
+  "createdBy": "u1"
+}

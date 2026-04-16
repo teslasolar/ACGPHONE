@@ -1,0 +1,9 @@
+{
+  "type": "stage",
+  "id": "red",
+  "name": "Question",
+  "emoji": "🟥",
+  "icon": "❓",
+  "color": "#ef4444",
+  "bgColor": "#dc2626"
+}

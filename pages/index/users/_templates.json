@@ -1,0 +1,8 @@
+{
+  "udt": {
+    "user": {
+      "props": ["id", "name", "color"],
+      "template": null
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "type": "stage",
+  "id": "purple",
+  "name": "Measure",
+  "emoji": "🟪",
+  "icon": "📐",
+  "color": "#a855f7",
+  "bgColor": "#9333ea"
+}

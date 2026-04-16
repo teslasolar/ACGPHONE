@@ -1,0 +1,11 @@
+{
+  "type": "header",
+  "title": "ACG-TEL",
+  "icon": "🧬",
+  "subtitle": "和",
+  "chain": {
+    "name": "Notification Team",
+    "users": ["u1", "u2", "u3"]
+  },
+  "badge": "💰 $0 · Free"
+}

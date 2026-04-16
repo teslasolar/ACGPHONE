@@ -1,0 +1,22 @@
+<div class="card-item" draggable="true" data-id="{{id}}"
+     style="border-left-color:{{color}}"
+     ondragstart="ds(event)">
+  <div class="card-top" onclick="toggle('{{id}}')">
+    <h4 class="card-title">{{title}}</h4>
+    <span class="card-expand">▸</span>
+  </div>
+  <div class="card-tags">{{tag_dots}}</div>
+  <div class="card-expanded" id="ex-{{id}}" hidden>
+    <p class="card-desc">{{description}}</p>
+    <div class="card-meta">
+      <span class="card-creator">
+        <span class="user-dot" style="background:{{user_color}}"></span>
+        {{user_name}}
+      </span>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-sm" onclick="advance('{{id}}')">→ {{next_name}}</button>
+      <button class="btn btn-sm btn-danger" onclick="del('{{id}}')">✕</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+{
+  "type": "card",
+  "id": "c3",
+  "title": "Analyze message delivery patterns",
+  "description": "Study timing and frequency of chain messages",
+  "stage": "yellow",
+  "tags": ["yellow", "green"],
+  "createdBy": "u3"
+}

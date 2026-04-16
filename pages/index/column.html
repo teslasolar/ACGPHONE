@@ -1,0 +1,12 @@
+<div class="stage-column" data-stage="{{id}}"
+     ondragover="ev(event)" ondragleave="el(event)" ondrop="dp(event)">
+  <div class="stage-header" style="border-top-color:{{color}}">
+    <div class="stage-title-row">
+      <span class="stage-icon">{{icon}}</span>
+      <span class="stage-name">{{name}}</span>
+      <span class="stage-count">{{count}}</span>
+    </div>
+    <div class="stage-cycle">{{emoji}} → {{next_emoji}}</div>
+  </div>
+  <div class="stage-cards">{{cards}}{{add_btn}}</div>
+</div>

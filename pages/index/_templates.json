@@ -1,0 +1,28 @@
+{
+  "udt": {
+    "page": {
+      "props": ["title", "subtitle", "sections"],
+      "template": "layout.html"
+    },
+    "header": {
+      "props": ["title", "icon", "subtitle", "chain", "badge"],
+      "template": "header.html"
+    },
+    "cycle": {
+      "props": ["stages"],
+      "template": "cycle.html"
+    },
+    "board": {
+      "props": ["columns"],
+      "template": "board.html"
+    },
+    "column": {
+      "props": ["stage", "cards"],
+      "template": "column.html"
+    },
+    "chat": {
+      "props": ["messages", "hint"],
+      "template": "chat.html"
+    }
+  }
+}

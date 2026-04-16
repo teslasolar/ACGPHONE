@@ -1,0 +1,9 @@
+{
+  "type": "chat",
+  "messages": [
+    { "user": "u1", "text": "Let's focus on the latency issue today" },
+    { "user": "u3", "text": "I have some data on delivery patterns" },
+    { "user": "u2", "text": "Great, let's analyze and move forward" }
+  ],
+  "hint": "Type /card Title to create a card"
+}

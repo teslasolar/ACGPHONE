@@ -1,0 +1,9 @@
+{
+  "type": "card",
+  "id": "c2",
+  "title": "Batch notifications by priority",
+  "description": "Group low-priority notifications into digests",
+  "stage": "orange",
+  "tags": ["orange"],
+  "createdBy": "u2"
+}

@@ -1,0 +1,9 @@
+{
+  "type": "card",
+  "id": "c1",
+  "title": "How to reduce notification latency?",
+  "description": "Users report delays in chain notifications",
+  "stage": "red",
+  "tags": ["red", "blue"],
+  "createdBy": "u1"
+}

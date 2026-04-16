@@ -1,0 +1,9 @@
+{
+  "type": "stage",
+  "id": "green",
+  "name": "Solve",
+  "emoji": "🟩",
+  "icon": "✦",
+  "color": "#22c55e",
+  "bgColor": "#16a34a"
+}

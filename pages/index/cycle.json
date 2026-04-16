@@ -1,0 +1,4 @@
+{
+  "type": "cycle",
+  "stages": ["red","orange","yellow","green","blue","purple","white"]
+}

@@ -1,0 +1,8 @@
+{
+  "udt": {
+    "stylesheet": {
+      "props": ["file", "scope"],
+      "template": null
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "udt": {
+    "card": {
+      "props": ["id", "title", "description", "stage", "tags", "createdBy"],
+      "template": null
+    }
+  }
+}

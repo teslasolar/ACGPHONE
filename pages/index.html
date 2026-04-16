@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ACG-TEL 和</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1117;--bg2:#1a1d27;--bgc:#1e2130;--bgh:#252838;--bdr:#2a2d3a;
+--txt:#c4c7d4;--dim:#6b7089;--brt:#e8eaf0;--acc:#3b82f6;--r:8px}
+body{font-family:Inter,-apple-system,sans-serif;background:var(--bg);
+color:var(--txt);line-height:1.5;min-height:100vh}
+.header{display:flex;align-items:center;justify-content:space-between;
+padding:12px 20px;background:var(--bg2);border-bottom:1px solid var(--bdr);
+gap:16px;flex-wrap:wrap}
+.header-left{display:flex;align-items:center;gap:10px}
+.logo{display:flex;align-items:center;gap:8px;font-size:20px;
+font-weight:700;color:var(--brt)}
+.logo-icon{font-size:24px}
+.header-subtitle{font-size:22px;opacity:.6}
+.header-chain{display:flex;flex-direction:column;align-items:center;gap:4px}
+.chain-label{font-size:13px;color:var(--dim)}
+.chain-users{display:flex;align-items:center;gap:4px}
+.chain-user-badge{display:flex;align-items:center;gap:4px;font-size:13px}
+.user-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.chain-arrow{color:var(--dim);margin:0 2px}
+.free-badge{font-size:12px;padding:4px 10px;background:rgba(34,197,94,.15);
+color:#22c55e;border-radius:20px;border:1px solid rgba(34,197,94,.3)}
+.cycle-indicator{display:flex;align-items:center;justify-content:center;
+padding:10px 20px;gap:6px;background:var(--bg2);
+border-bottom:1px solid var(--bdr);flex-wrap:wrap}
+.cycle-dot{width:28px;height:28px;border-radius:50%;display:flex;
+align-items:center;justify-content:center;font-size:12px;color:#fff;
+text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.cycle-arrow{color:var(--dim);font-size:12px}
+.board{display:flex;gap:12px;padding:16px;overflow-x:auto;flex:1;
+align-items:flex-start}
+.stage-column{min-width:240px;max-width:280px;flex:1;background:var(--bg2);
+border-radius:12px;border:1px solid var(--bdr);display:flex;
+flex-direction:column;transition:border-color .2s,box-shadow .2s}
+.stage-column.drag-over{border-color:var(--acc);
+box-shadow:0 0 0 1px var(--acc),0 0 20px rgba(59,130,246,.1)}
+.stage-header{padding:12px;border-top:3px solid;border-radius:12px 12px 0 0}
+.stage-title-row{display:flex;align-items:center;gap:8px}
+.stage-icon{font-size:16px}
+.stage-name{font-size:14px;font-weight:600;color:var(--brt)}
+.stage-count{margin-left:auto;font-size:12px;background:var(--bgc);
+color:var(--dim);padding:1px 8px;border-radius:10px}
+.stage-cycle{font-size:11px;color:var(--dim);margin-top:4px}
+.stage-cards{padding:8px;display:flex;flex-direction:column;gap:8px;
+min-height:60px}
+.card-item{background:var(--bgc);border-radius:var(--r);
+border:1px solid var(--bdr);border-left:3px solid;padding:10px;
+cursor:grab;transition:transform .15s,box-shadow .15s}
+.card-item:hover{transform:translateY(-1px);
+box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;
+gap:8px;cursor:pointer}
+.card-title{font-size:13px;font-weight:500;color:var(--brt);line-height:1.4}
+.card-expand{font-size:11px;color:var(--dim);flex-shrink:0;padding-top:2px}
+.card-tags{display:flex;gap:3px;margin-top:6px}
+.card-tag{width:12px;height:4px;border-radius:2px}
+.card-expanded{margin-top:10px;padding-top:10px;
+border-top:1px solid var(--bdr);display:flex;flex-direction:column;gap:8px}
+.card-desc{font-size:12px;color:var(--dim)}
+.card-meta{display:flex;justify-content:space-between;align-items:center;
+font-size:11px;color:var(--dim)}
+.card-creator{display:flex;align-items:center;gap:4px}
+.card-actions{display:flex;gap:4px;flex-wrap:wrap}
+.btn{font-size:12px;padding:5px 10px;border:1px solid var(--bdr);
+border-radius:6px;background:var(--bg2);color:var(--txt);cursor:pointer;
+transition:background .15s}
+.btn:hover{background:var(--bgh);border-color:var(--dim)}
+.btn-primary{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn-primary:hover{background:#2563eb}
+.btn-sm{font-size:11px;padding:3px 8px}
+.btn-danger{color:#ef4444;border-color:transparent}
+.btn-danger:hover{background:rgba(239,68,68,.15)}
+.btn-add{width:100%;border-style:dashed;color:var(--dim)}
+.btn-add:hover{color:var(--txt);border-color:var(--dim)}
+.add-card-form{display:flex;flex-direction:column;gap:6px}
+.add-card-input{background:var(--bgc);border:1px solid var(--bdr);
+border-radius:6px;padding:8px;color:var(--txt);font-size:13px;
+font-family:inherit}
+.add-card-input:focus{outline:none;border-color:var(--acc)}
+.chat-panel{position:fixed;bottom:0;right:20px;width:340px;
+background:var(--bg2);border:1px solid var(--bdr);border-bottom:none;
+border-radius:12px 12px 0 0;display:flex;flex-direction:column;z-index:100;
+box-shadow:0 -4px 24px rgba(0,0,0,.3)}
+.chat-panel.closed{width:auto}
+.chat-toggle{padding:10px 16px;background:none;border:none;
+color:var(--brt);font-size:14px;font-weight:500;cursor:pointer;
+text-align:left;font-family:inherit}
+.chat-toggle:hover{background:var(--bgh)}
+.chat-messages{max-height:300px;overflow-y:auto;padding:8px 12px;
+display:flex;flex-direction:column;gap:8px;
+border-top:1px solid var(--bdr)}
+.chat-msg{display:flex;flex-direction:column;gap:2px}
+.chat-msg-header{display:flex;align-items:center;gap:4px;font-size:11px}
+.chat-msg-name{font-weight:500;color:var(--txt)}
+.chat-msg-text{font-size:13px;color:var(--brt);background:var(--bgc);
+padding:6px 10px;border-radius:8px;max-width:85%}
+.chat-input-area{padding:8px 12px 12px;border-top:1px solid var(--bdr)}
+.chat-hint{font-size:10px;color:var(--dim);margin-bottom:6px}
+.chat-hint code{background:var(--bgc);padding:1px 4px;border-radius:3px}
+.chat-input-row{display:flex;gap:6px}
+.chat-input{flex:1;background:var(--bgc);border:1px solid var(--bdr);
+border-radius:6px;padding:8px;color:var(--txt);font-size:13px;
+font-family:inherit}
+.chat-input:focus{outline:none;border-color:var(--acc)}
+.chat-send{padding:8px 14px;font-size:16px}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:3px}
+@media(max-width:768px){
+.header{flex-direction:column;align-items:flex-start;gap:8px}
+.board{padding:12px;gap:10px}
+.stage-column{min-width:200px}
+.chat-panel{width:100%;right:0}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-left">
+    <h1 class="logo">
+      <span class="logo-icon">🧬</span>
+      <span>ACG-TEL</span>
+    </h1>
+    <span class="header-subtitle">和</span>
+  </div>
+  <div class="header-chain">
+    <span class="chain-label">🔗 Notification Team</span>
+    <div class="chain-users"><span class="chain-user-badge"><span class="user-dot" style="background:#3b82f6"></span>You<span class="chain-arrow">→</span></span><span class="chain-user-badge"><span class="user-dot" style="background:#22c55e"></span>Kai<span class="chain-arrow">→</span></span><span class="chain-user-badge"><span class="user-dot" style="background:#a855f7"></span>Mika</span></div>
+  </div>
+  <div class="header-right">
+    <span class="free-badge">💰 $0 · Free</span>
+  </div>
+</header>
+
+<div class="cycle-indicator">
+  <span class="cycle-dot" style="background:#ef4444" title="Question">❓</span><span class="cycle-arrow">→</span><span class="cycle-dot" style="background:#f97316" title="Brainstorm">⊕</span><span class="cycle-arrow">→</span><span class="cycle-dot" style="background:#eab308" title="Analyze">🧬</span><span class="cycle-arrow">→</span><span class="cycle-dot" style="background:#22c55e" title="Solve">✦</span><span class="cycle-arrow">→</span><span class="cycle-dot" style="background:#3b82f6" title="Build">⚙️</span><span class="cycle-arrow">→</span><span class="cycle-dot" style="background:#a855f7" title="Measure">📐</span><span class="cycle-arrow">→</span><span class="cycle-dot" style="background:#6b7280" title="Review">🔁</span>
+  <span class="cycle-arrow">→</span>
+  <span class="cycle-dot" style="background:#ef4444" title="Cycle back">🔁</span>
+</div>
+
+<div class="board" id="board">
+  <div class="stage-column" data-stage="red"
+     ondragover="ev(event)" ondragleave="el(event)" ondrop="dp(event)">
+  <div class="stage-header" style="border-top-color:#ef4444">
+    <div class="stage-title-row">
+      <span class="stage-icon">❓</span>
+      <span class="stage-name">Question</span>
+      <span class="stage-count">1</span>
+    </div>
+    <div class="stage-cycle">🟥 → 🟧</div>
+  </div>
+  <div class="stage-cards"><div class="card-item" draggable="true" data-id="c1"
+     style="border-left-color:#ef4444"
+     ondragstart="ds(event)">
+  <div class="card-top" onclick="toggle('c1')">
+    <h4 class="card-title">How to reduce notification latency?</h4>
+    <span class="card-expand">▸</span>
+  </div>
+  <div class="card-tags"><span class="card-tag" style="background:#ef4444"></span><span class="card-tag" style="background:#3b82f6"></span></div>
+  <div class="card-expanded" id="ex-c1" hidden>
+    <p class="card-desc">Users report delays in chain notifications</p>
+    <div class="card-meta">
+      <span class="card-creator">
+        <span class="user-dot" style="background:#3b82f6"></span>
+        You
+      </span>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-sm" onclick="advance('c1')">→ Brainstorm</button>
+      <button class="btn btn-sm btn-danger" onclick="del('c1')">✕</button>
+    </div>
+  </div>
+</div>
+<div class="add-card-area"><button class="btn btn-add" onclick="showAdd()">+ Add Question</button></div></div>
+</div>
+
+<div class="stage-column" data-stage="orange"
+     ondragover="ev(event)" ondragleave="el(event)" ondrop="dp(event)">
+  <div class="stage-header" style="border-top-color:#f97316">
+    <div class="stage-title-row">
+      <span class="stage-icon">⊕</span>
+      <span class="stage-name">Brainstorm</span>
+      <span class="stage-count">1</span>
+    </div>
+    <div class="stage-cycle">🟧 → 🟨</div>
+  </div>
+  <div class="stage-cards"><div class="card-item" draggable="true" data-id="c2"
+     style="border-left-color:#f97316"
+     ondragstart="ds(event)">
+  <div class="card-top" onclick="toggle('c2')">
+    <h4 class="card-title">Batch notifications by priority</h4>
+    <span class="card-expand">▸</span>
+  </div>
+  <div class="card-tags"><span class="card-tag" style="background:#f97316"></span></div>
+  <div class="card-expanded" id="ex-c2" hidden>
+    <p class="card-desc">Group low-priority notifications into digests</p>
+    <div class="card-meta">
+      <span class="card-creator">
+        <span class="user-dot" style="background:#22c55e"></span>
+        Kai
+      </span>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-sm" onclick="advance('c2')">→ Analyze</button>
+      <button class="btn btn-sm btn-danger" onclick="del('c2')">✕</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="stage-column" data-stage="yellow"
+     ondragover="ev(event)" ondragleave="el(event)" ondrop="dp(event)">
+  <div class="stage-header" style="border-top-color:#eab308">
+    <div class="stage-title-row">
+      <span class="stage-icon">🧬</span>
+      <span class="stage-name">Analyze</span>
+      <span class="stage-count">1</span>
+    </div>
+    <div class="stage-cycle">🟨 → 🟩</div>
+  </div>
+  <div class="stage-cards"><div class="card-item" draggable="true" data-id="c3"
+     style="border-left-color:#eab308"
+     ondragstart="ds(event)">
+  <div class="card-top" onclick="toggle('c3')">
+    <h4 class="card-title">Analyze message delivery patterns</h4>
+    <span class="card-expand">▸</span>
+  </div>
+  <div class="card-tags"><span class="card-tag" style="background:#eab308"></span><span class="card-tag" style="background:#22c55e"></span></div>
+  <div class="card-expanded" id="ex-c3" hidden>
+    <p class="card-desc">Study timing and frequency of chain messages</p>
+    <div class="card-meta">
+      <span class="card-creator">
+        <span class="user-dot" style="background:#a855f7"></span>
+        Mika
+      </span>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-sm" onclick="advance('c3')">→ Solve</button>
+      <button class="btn btn-sm btn-danger" onclick="del('c3')">✕</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="stage-column" data-stage="green"
+     ondragover="ev(event)" ondragleave="el(event)" ondrop="dp(event)">
+  <div class="stage-header" style="border-top-color:#22c55e">
+    <div class="stage-title-row">
+      <span class="stage-icon">✦</span>
+      <span class="stage-name">Solve</span>
+      <span class="stage-count">1</span>
+    </div>
+    <div class="stage-cycle">🟩 → 🟦</div>
+  </div>
+  <div class="stage-cards"><div class="card-item" draggable="true" data-id="c4"
+     style="border-left-color:#22c55e"
+     ondragstart="ds(event)">
+  <div class="card-top" onclick="toggle('c4')">
+    <h4 class="card-title">WebSocket real-time pipeline</h4>
+    <span class="card-expand">▸</span>
+  </div>
+  <div class="card-tags"><span class="card-tag" style="background:#22c55e"></span><span class="card-tag" style="background:#3b82f6"></span></div>
+  <div class="card-expanded" id="ex-c4" hidden>
+    <p class="card-desc">Replace polling with persistent connections</p>
+    <div class="card-meta">
+      <span class="card-creator">
+        <span class="user-dot" style="background:#3b82f6"></span>
+        You
+      </span>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-sm" onclick="advance('c4')">→ Build</button>
+      <button class="btn btn-sm btn-danger" onclick="del('c4')">✕</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="stage-column" data-stage="blue"
+     ondragover="ev(event)" ondragleave="el(event)" ondrop="dp(event)">
+  <div class="stage-header" style="border-top-color:#3b82f6">
+    <div class="stage-title-row">
+      <span class="stage-icon">⚙️</span>
+      <span class="stage-name">Build</span>
+      <span class="stage-count">1</span>
+    </div>
+    <div class="stage-cycle">🟦 → 🟪</div>
+  </div>
+  <div class="stage-cards"><div class="card-item" draggable="true" data-id="c5"
+     style="border-left-color:#3b82f6"
+     ondragstart="ds(event)">
+  <div class="card-top" onclick="toggle('c5')">
+    <h4 class="card-title">Build push notification service</h4>
+    <span class="card-expand">▸</span>
+  </div>
+  <div class="card-tags"><span class="card-tag" style="background:#3b82f6"></span></div>
+  <div class="card-expanded" id="ex-c5" hidden>
+    <p class="card-desc">Implement service worker for background delivery</p>
+    <div class="card-meta">
+      <span class="card-creator">
+        <span class="user-dot" style="background:#22c55e"></span>
+        Kai
+      </span>
+    </div>
+    <div class="card-actions">
+      <button class="btn btn-sm" onclick="advance('c5')">→ Measure</button>
+      <button class="btn btn-sm btn-danger" onclick="del('c5')">✕</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="stage-column" data-stage="purple"
+     ondragover="ev(event)" ondragleave="el(event)" ondrop="dp(event)">
+  <div class="stage-header" style="border-top-color:#a855f7">
+    <div class="stage-title-row">
+      <span class="stage-icon">📐</span>
+      <span class="stage-name">Measure</span>
+      <span class="stage-count">0</span>
+    </div>
+    <div class="stage-cycle">🟪 → ⬜</div>
+  </div>
+  <div class="stage-cards"></div>
+</div>
+
+<div class="stage-column" data-stage="white"
+     ondragover="ev(event)" ondragleave="el(event)" ondrop="dp(event)">
+  <div class="stage-header" style="border-top-color:#6b7280">
+    <div class="stage-title-row">
+      <span class="stage-icon">🔁</span>
+      <span class="stage-name">Review</span>
+      <span class="stage-count">0</span>
+    </div>
+    <div class="stage-cycle">⬜ → 🟥</div>
+  </div>
+  <div class="stage-cards"></div>
+</div>
+
+</div>
+
+<div class="chat-panel closed" id="chat">
+  <button class="chat-toggle" onclick="toggleChat()">☕ Chat</button>
+  <div class="chat-body" id="chat-body" hidden>
+    <div class="chat-messages" id="chat-msgs"><div class="chat-msg"><div class="chat-msg-header"><span class="user-dot" style="background:#3b82f6"></span><span class="chat-msg-name">You</span></div><p class="chat-msg-text">Let's focus on the latency issue today</p></div>
+<div class="chat-msg"><div class="chat-msg-header"><span class="user-dot" style="background:#a855f7"></span><span class="chat-msg-name">Mika</span></div><p class="chat-msg-text">I have some data on delivery patterns</p></div>
+<div class="chat-msg"><div class="chat-msg-header"><span class="user-dot" style="background:#22c55e"></span><span class="chat-msg-name">Kai</span></div><p class="chat-msg-text">Great, let's analyze and move forward</p></div></div>
+    <div class="chat-input-area">
+      <div class="chat-hint">Type /card Title to create a card</div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chat-in"
+               placeholder="Message the chain..."
+               onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="btn btn-primary chat-send" onclick="sendMsg()">→</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var STAGES=["red","orange","yellow","green","blue","purple","white"];
+var STAGE_DATA={"red":{"type":"stage","id":"red","name":"Question","emoji":"🟥","icon":"❓","color":"#ef4444","bgColor":"#dc2626"},"orange":{"type":"stage","id":"orange","name":"Brainstorm","emoji":"🟧","icon":"⊕","color":"#f97316","bgColor":"#ea580c"},"yellow":{"type":"stage","id":"yellow","name":"Analyze","emoji":"🟨","icon":"🧬","color":"#eab308","bgColor":"#ca8a04"},"green":{"type":"stage","id":"green","name":"Solve","emoji":"🟩","icon":"✦","color":"#22c55e","bgColor":"#16a34a"},"blue":{"type":"stage","id":"blue","name":"Build","emoji":"🟦","icon":"⚙️","color":"#3b82f6","bgColor":"#2563eb"},"purple":{"type":"stage","id":"purple","name":"Measure","emoji":"🟪","icon":"📐","color":"#a855f7","bgColor":"#9333ea"},"white":{"type":"stage","id":"white","name":"Review","emoji":"⬜","icon":"🔁","color":"#6b7280","bgColor":"#4b5563"}};
+function ev(e){e.preventDefault();e.currentTarget.classList.add('drag-over')}
+function el(e){e.currentTarget.classList.remove('drag-over')}
+function dp(e){e.preventDefault();e.currentTarget.classList.remove('drag-over');
+var id=e.dataTransfer.getData('text/plain');var card=document.querySelector('[data-id="'+id+'"]');
+if(card){e.currentTarget.querySelector('.stage-cards').appendChild(card);
+var st=e.currentTarget.dataset.stage;var s=STAGE_DATA[st];
+card.style.borderLeftColor=s.color;card.dataset.stage=st;updateCounts()}}
+function ds(e){e.dataTransfer.setData('text/plain',e.currentTarget.dataset.id);
+e.dataTransfer.effectAllowed='move'}
+function toggle(id){var el=document.getElementById('ex-'+id);
+var exp=el.parentElement.querySelector('.card-expand');
+if(el.hidden){el.hidden=false;exp.textContent='▾'}else{el.hidden=true;exp.textContent='▸'}}
+function advance(id){var card=document.querySelector('[data-id="'+id+'"]');
+var col=card.closest('.stage-column');var cur=col.dataset.stage;
+var ni=(STAGES.indexOf(cur)+1)%STAGES.length;var ns=STAGES[ni];
+var target=document.querySelector('[data-stage="'+ns+'"] .stage-cards');
+target.appendChild(card);card.style.borderLeftColor=STAGE_DATA[ns].color;
+card.dataset.stage=ns;updateCounts()}
+function del(id){var card=document.querySelector('[data-id="'+id+'"]');
+card.remove();updateCounts()}
+function updateCounts(){STAGES.forEach(function(s){
+var col=document.querySelector('[data-stage="'+s+'"]');
+var n=col.querySelectorAll('.card-item').length;
+col.querySelector('.stage-count').textContent=n})}
+function toggleChat(){var b=document.getElementById('chat-body');
+var p=document.getElementById('chat');
+if(b.hidden){b.hidden=false;p.classList.remove('closed')}
+else{b.hidden=true;p.classList.add('closed')}}
+function sendMsg(){var inp=document.getElementById('chat-in');var t=inp.value.trim();
+if(!t)return;inp.value='';var box=document.getElementById('chat-msgs');
+if(t.startsWith('/card ')){var title=t.slice(6);addCard(title);
+t='Created card: "'+title+'"'}
+box.innerHTML+='<div class="chat-msg"><div class="chat-msg-header">'+
+'<span class="user-dot" style="background:#3b82f6"></span>'+
+'<span class="chat-msg-name">You</span></div>'+
+'<p class="chat-msg-text">'+t+'</p></div>';
+box.scrollTop=box.scrollHeight}
+function addCard(title){var col=document.querySelector('[data-stage="red"] .stage-cards');
+var id='c'+Date.now();
+col.insertAdjacentHTML('beforeend',
+'<div class="card-item" draggable="true" data-id="'+id+'" data-stage="red"'+
+' style="border-left-color:#ef4444" ondragstart="ds(event)">'+
+'<div class="card-top" onclick="toggle(\''+id+'\')">'+
+'<h4 class="card-title">'+title+'</h4>'+
+'<span class="card-expand">▸</span></div>'+
+'<div class="card-tags"><span class="card-tag" style="background:#ef4444"></span></div>'+
+'<div class="card-expanded" id="ex-'+id+'" hidden>'+
+'<div class="card-actions">'+
+'<button class="btn btn-sm" onclick="advance(\''+id+'\')">→ Brainstorm</button>'+
+'<button class="btn btn-sm btn-danger" onclick="del(\''+id+'\')">✕</button>'+
+'</div></div></div>');updateCounts()}
+function showAdd(){var area=document.querySelector('.add-card-area');
+area.innerHTML='<div class="add-card-form">'+
+'<input class="add-card-input" id="new-card" placeholder="What is the question?"'+
+' onkeydown="if(event.key===\'Enter\')doAdd()">'+
+'<div style="display:flex;gap:6px">'+
+'<button class="btn btn-primary" onclick="doAdd()">Add</button>'+
+'<button class="btn" onclick="cancelAdd()">Cancel</button></div></div>'}
+function doAdd(){var inp=document.getElementById('new-card');
+var t=inp.value.trim();if(t){addCard(t)}cancelAdd()}
+function cancelAdd(){var area=document.querySelector('.add-card-area');
+area.innerHTML='<button class="btn btn-add" onclick="showAdd()">+ Add Question</button>'}
+</script>
+</body>
+</html>

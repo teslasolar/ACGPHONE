@@ -1,0 +1,9 @@
+{
+  "type": "stage",
+  "id": "orange",
+  "name": "Brainstorm",
+  "emoji": "🟧",
+  "icon": "⊕",
+  "color": "#f97316",
+  "bgColor": "#ea580c"
+}

@@ -1,0 +1,8 @@
+{
+  "udt": {
+    "stage": {
+      "props": ["id", "name", "emoji", "icon", "color", "bgColor"],
+      "template": null
+    }
+  }
+}

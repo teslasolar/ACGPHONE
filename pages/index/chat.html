@@ -1,0 +1,15 @@
+<div class="chat-panel closed" id="chat">
+  <button class="chat-toggle" onclick="toggleChat()">☕ Chat</button>
+  <div class="chat-body" id="chat-body" hidden>
+    <div class="chat-messages" id="chat-msgs">{{messages}}</div>
+    <div class="chat-input-area">
+      <div class="chat-hint">{{hint}}</div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chat-in"
+               placeholder="Message the chain..."
+               onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="btn btn-primary chat-send" onclick="sendMsg()">→</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+{
+  "type": "stage",
+  "id": "blue",
+  "name": "Build",
+  "emoji": "🟦",
+  "icon": "⚙️",
+  "color": "#3b82f6",
+  "bgColor": "#2563eb"
+}

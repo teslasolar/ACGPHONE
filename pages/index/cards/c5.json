@@ -1,0 +1,9 @@
+{
+  "type": "card",
+  "id": "c5",
+  "title": "Build push notification service",
+  "description": "Implement service worker for background delivery",
+  "stage": "blue",
+  "tags": ["blue"],
+  "createdBy": "u2"
+}

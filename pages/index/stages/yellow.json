@@ -1,0 +1,9 @@
+{
+  "type": "stage",
+  "id": "yellow",
+  "name": "Analyze",
+  "emoji": "🟨",
+  "icon": "🧬",
+  "color": "#eab308",
+  "bgColor": "#ca8a04"
+}

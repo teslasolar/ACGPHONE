@@ -1,0 +1,9 @@
+{
+  "type": "stage",
+  "id": "white",
+  "name": "Review",
+  "emoji": "⬜",
+  "icon": "🔁",
+  "color": "#6b7280",
+  "bgColor": "#4b5563"
+}
